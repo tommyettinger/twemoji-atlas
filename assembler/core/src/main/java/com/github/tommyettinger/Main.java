@@ -16,10 +16,10 @@ public class Main extends ApplicationAdapter {
             String codename = entry.getString("codes").toLowerCase().replace(' ', '-') + ".png";
             String charString = entry.getString("char") + ".png";
             String name = entry.getString("name").replace(':', ',').replace(".", "").replace("&", "and") + ".png";
-            FileHandle original = Gdx.files.local("../../scaled/" + codename);
+            FileHandle original = Gdx.files.local("../../scaled-mid/" + codename);
             if (original.exists()) {
-                original.copyTo(Gdx.files.local("../../renamed-scaled/emoji/" + charString));
-                original.copyTo(Gdx.files.local("../../renamed-scaled/name/" + name));
+                original.copyTo(Gdx.files.local("../../renamed-mid/emoji/" + charString));
+                original.copyTo(Gdx.files.local("../../renamed-mid/name/" + name));
             }
         }
     }
