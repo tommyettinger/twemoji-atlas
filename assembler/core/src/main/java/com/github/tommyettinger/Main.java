@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2022 Tommy Ettinger.
+ * Licensed under MIT.
+ * https://github.com/tommyettinger/twemoji-atlas/blob/main/LICENSE
+ */
+
 package com.github.tommyettinger;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -11,7 +17,6 @@ public class Main extends ApplicationAdapter {
     public void create() {
         JsonReader reader = new JsonReader();
         JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
-//        int count = json.size;
         for (JsonValue entry = json.child; entry != null; entry = entry.next) {
             String codename = entry.getString("codes").toLowerCase().replace(' ', '-') + ".png";
             String charString = entry.getString("char") + ".png";

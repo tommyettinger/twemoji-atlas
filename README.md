@@ -2,26 +2,20 @@
 
 Takes [twemoji](https://github.com/twitter/twemoji) icons,
 uses [emoji.json](https://github.com/GreatWizard/emoji.json/tree/feat/14.0) to name them,
-and outputs a [libGDX](https://libgdx.com/) atlas (eventually).
+and outputs a [libGDX](https://libgdx.com/) atlas.
 
-## Gradle
+There are atlases available in three sizes:
 
-This project uses [Gradle](http://gradle.org/) to manage dependencies.
-The Gradle wrapper was included, so you can run Gradle tasks using `gradlew.bat` or `./gradlew` commands.
-Useful Gradle tasks and flags:
+  - 72x72 icons (original size) are in `atlas/`, with five 2048x2048 texture pages.
+  - 32x32 icons (mid-size) are in `atlas-mid/`, with one 2048x2048 texture page using whitespace stripping.
+  - 24x24 icons (small size) are in `atlas-small/`, with one 2048x2048 texture page without whitespace stripping.
 
-- `--continue`: when using this flag, errors will not stop the tasks from running.
-- `--daemon`: thanks to this flag, Gradle daemon will be used to run chosen tasks.
-- `--offline`: when using this flag, cached dependency archives will be used.
-- `--refresh-dependencies`: this flag forces validation of all dependencies. Useful for snapshot versions.
-- `build`: builds sources and archives of every project.
-- `cleanEclipse`: removes Eclipse project data.
-- `cleanIdea`: removes IntelliJ project data.
-- `clean`: removes `build` folders, which store compiled classes and built archives.
-- `eclipse`: generates Eclipse project data.
-- `headless:run`: starts the headless application. Note: if headless sources were not modified - and the application still creates `ApplicationListener` from `core` project - this task might fail due to no graphics support.
-- `idea`: generates IntelliJ project data.
-- `test`: runs unit tests (if any).
+The base images used to make these are in `renamed/`, `renamed-mid/`, and `renamed-small/`. You can pack those
+into your own atlas, or use a subset of them, if you want.
 
-Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
-For example, `core:clean` removes `build` folder only from the `core` project.
+## License
+
+The atlases and all image assets are licensed under CC-BY 4.0, with the same
+[permissions granted for twemoji here](https://github.com/twitter/twemoji#attribution-requirements).
+
+The code is licensed under the MIT License. It includes emoji.json, which is also MIT-licensed.

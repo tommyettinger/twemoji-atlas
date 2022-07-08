@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2022 Tommy Ettinger.
+ * Licensed under MIT.
+ * https://github.com/tommyettinger/twemoji-atlas/blob/main/LICENSE
+ */
+
 package com.github.tommyettinger.headless;
 
 import com.badlogic.gdx.Application;
