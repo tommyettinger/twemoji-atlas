@@ -17,15 +17,31 @@ public class Main extends ApplicationAdapter {
     public void create() {
         JsonReader reader = new JsonReader();
         JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
+        char[] buffer = new char[2];
         for (JsonValue entry = json.child; entry != null; entry = entry.next) {
+            if(!"Flags (country-flag)".equals(entry.getString("category"))) continue;
+
             String codename = entry.getString("codes").toLowerCase().replace(' ', '-') + ".png";
             String charString = entry.getString("char") + ".png";
             String name = entry.getString("name").replace(':', ',').replace(".", "").replace("&", "and") + ".png";
-            FileHandle original = Gdx.files.local("../../scaled-mid/" + codename);
+            String countryUnicode = entry.getString("char");
+            buffer[0] = (char)(countryUnicode.codePointAt(1) - 56806 + 'A');
+            buffer[1] = (char)(countryUnicode.codePointAt(3) - 56806 + 'A');
+            String countryCode = String.valueOf(buffer);
+            FileHandle original = Gdx.files.local("../../individual/" + codename);
             if (original.exists()) {
-                original.copyTo(Gdx.files.local("../../renamed-mid/emoji/" + charString));
-                original.copyTo(Gdx.files.local("../../renamed-mid/name/" + name));
+                original.copyTo(Gdx.files.local("../../flags/emoji/" + charString));
+                original.copyTo(Gdx.files.local("../../flags/name/" + name));
+                original.copyTo(Gdx.files.local("../../flags/code/" + countryCode + ".png"));
             }
+//            String codename = entry.getString("codes").toLowerCase().replace(' ', '-') + ".png";
+//            String charString = entry.getString("char") + ".png";
+//            String name = entry.getString("name").replace(':', ',').replace(".", "").replace("&", "and") + ".png";
+//            FileHandle original = Gdx.files.local("../../scaled-mid/" + codename);
+//            if (original.exists()) {
+//                original.copyTo(Gdx.files.local("../../renamed-mid/emoji/" + charString));
+//                original.copyTo(Gdx.files.local("../../renamed-mid/name/" + name));
+//            }
         }
     }
 }
