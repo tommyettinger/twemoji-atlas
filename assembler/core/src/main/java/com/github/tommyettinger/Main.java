@@ -28,11 +28,11 @@ public class Main extends ApplicationAdapter {
             buffer[0] = (char)(countryUnicode.codePointAt(1) - 56806 + 'A');
             buffer[1] = (char)(countryUnicode.codePointAt(3) - 56806 + 'A');
             String countryCode = String.valueOf(buffer);
-            FileHandle original = Gdx.files.local("../../individual/" + codename);
+            FileHandle original = Gdx.files.local("../../scaled-tiny/" + codename);
             if (original.exists()) {
-                original.copyTo(Gdx.files.local("../../flags/emoji/" + charString));
-                original.copyTo(Gdx.files.local("../../flags/name/" + name));
-                original.copyTo(Gdx.files.local("../../flags/code/" + countryCode + ".png"));
+                original.copyTo(Gdx.files.local("../../flags-tiny/emoji/" + charString));
+                original.copyTo(Gdx.files.local("../../flags-tiny/name/" + name));
+                original.copyTo(Gdx.files.local("../../flags-tiny/code/" + countryCode + ".png"));
             }
 //            String codename = entry.getString("codes").toLowerCase().replace(' ', '-') + ".png";
 //            String charString = entry.getString("char") + ".png";

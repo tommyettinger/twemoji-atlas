@@ -1,6 +1,6 @@
 name=twemoji
-filename=
-output=atlas-mid
+filename=flags.atlas
+output=atlas-flags-tiny
 
 alias=true
 alphaThreshold=0
@@ -11,7 +11,7 @@ fast=true
 filterMag=Nearest
 filterMin=Nearest
 ignoreBlankImages=true
-maxHeight=2048
+maxHeight=1024
 maxWidth=2048
 minHeight=16
 minWidth=16
@@ -20,8 +20,8 @@ paddingY=2
 pot=true
 mof=false
 rotation=false
-stripWhitespaceX=true
-stripWhitespaceY=true
+stripWhitespaceX=false
+stripWhitespaceY=false
 wrapX=ClampToEdge
 wrapY=ClampToEdge
 premultiplyAlpha=false
@@ -32,7 +32,7 @@ limitMemory=true
 useIndexes=true
 
 scaleFactors=[{suffix:"",factor:1,resampling:bicubic}]
-inputFiles=[{path:renamed-mid,type:Input,dirFilePrefix:null,recursive:true,flattenPaths:true}]
+inputFiles=[{path:flags-tiny,type:Input,dirFilePrefix:null,recursive:true,flattenPaths:true}]
 keepInputFileExtensions=false
 
 
