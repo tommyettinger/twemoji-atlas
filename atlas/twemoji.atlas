@@ -13,19 +13,19 @@ Japanese castle
 bounds:1408,1186,72,72
 🏯
 bounds:1408,1186,72,72
-Japanese “application” button
+Japanese 'application' button
 bounds:1778,446,72,72
 🈸
 bounds:1778,446,72,72
-Japanese “bargain” button
+Japanese 'bargain' button
 bounds:668,1186,72,72
 🉐
 bounds:668,1186,72,72
-Japanese “monthly amount” button
+Japanese 'monthly amount' button
 bounds:1852,1334,72,72
 🈷
 bounds:1852,1334,72,72
-Japanese “passing grade” button
+Japanese 'passing grade' button
 bounds:964,1186,72,72
 🈴
 bounds:964,1186,72,72
@@ -1671,7 +1671,7 @@ flag, Zambia
 bounds:1260,372,72,72
 🈶
 bounds:594,446,72,72
-Japanese “not free of charge” button
+Japanese 'not free of charge' button
 bounds:594,446,72,72
 🌊
 bounds:1556,890,72,72
@@ -4439,7 +4439,7 @@ minus
 bounds:1334,1408,72,72
 ㊗
 bounds:150,150,72,72
-Japanese “congratulations” button
+Japanese 'congratulations' button
 bounds:150,150,72,72
 🃏
 bounds:668,224,72,72
@@ -4555,7 +4555,7 @@ bounds:150,520,72,72
 bounds:150,520,72,72
 🈳
 bounds:1926,1112,72,72
-Japanese “vacancy” button
+Japanese 'vacancy' button
 bounds:1926,1112,72,72
 🌂
 bounds:742,1260,72,72
@@ -5869,7 +5869,7 @@ Japanese dolls
 bounds:76,1704,72,72
 🎎
 bounds:76,1704,72,72
-Japanese “reserved” button
+Japanese 'reserved' button
 bounds:668,2,72,72
 🈯
 bounds:668,2,72,72
@@ -7447,7 +7447,7 @@ flag, Zimbabwe
 bounds:1482,1926,72,72
 🈁
 bounds:1704,1630,72,72
-Japanese “here” button
+Japanese 'here' button
 bounds:1704,1630,72,72
 🌄
 bounds:1852,76,72,72
@@ -8805,7 +8805,7 @@ Gemini
 bounds:76,890,72,72
 ♊
 bounds:76,890,72,72
-Japanese “prohibited” button
+Japanese 'prohibited' button
 bounds:1112,298,72,72
 🈲
 bounds:1112,298,72,72
@@ -10263,7 +10263,7 @@ left arrow
 bounds:372,1038,72,72
 ㊙
 bounds:668,1704,72,72
-Japanese “secret” button
+Japanese 'secret' button
 bounds:668,1704,72,72
 🇦🇫
 bounds:1186,816,72,72
@@ -10351,11 +10351,11 @@ flag, Mayotte
 bounds:1482,1260,72,72
 🈵
 bounds:2,224,72,72
-Japanese “no vacancy” button
+Japanese 'no vacancy' button
 bounds:2,224,72,72
 🈺
 bounds:1038,76,72,72
-Japanese “open for business” button
+Japanese 'open for business' button
 bounds:1038,76,72,72
 🌁
 bounds:1852,1186,72,72
@@ -11717,19 +11717,19 @@ Aries
 bounds:446,372,72,72
 ♈
 bounds:446,372,72,72
-Japanese “acceptable” button
+Japanese 'acceptable' button
 bounds:1334,1112,72,72
 🉑
 bounds:1334,1112,72,72
-Japanese “discount” button
+Japanese 'discount' button
 bounds:1186,2,72,72
 🈹
 bounds:1186,2,72,72
-Japanese “free of charge” button
+Japanese 'free of charge' button
 bounds:2,1926,72,72
 🈚
 bounds:2,1926,72,72
-Japanese “service charge” button
+Japanese 'service charge' button
 bounds:1852,1852,72,72
 🈂
 bounds:1852,1852,72,72
