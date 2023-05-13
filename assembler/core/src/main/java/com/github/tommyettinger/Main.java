@@ -47,7 +47,7 @@ public class Main extends ApplicationAdapter {
                 String charString = entry.getString("char") + ".png";
                 String name = entry.getString("name").replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and") + ".png";
                 FileHandle original = Gdx.files.local("../../scaled-mid/" + codename);
-                if (original.exists()) {
+                if (original.exists() && !Gdx.files.local("../../renamed-mid/emoji/" + charString).exists()) {
                     original.copyTo(Gdx.files.local("../../renamed-mid/emoji/" + charString));
                     original.copyTo(Gdx.files.local("../../renamed-mid/name/" + name));
                 }
