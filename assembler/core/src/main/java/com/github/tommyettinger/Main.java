@@ -13,6 +13,8 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 
 public class Main extends ApplicationAdapter {
+//    public static final String MODE = "FLAG";
+//    public static final String MODE = "EMOJI";
     public static final String MODE = "EMOJI_HTML";
     @Override
     public void create() {
@@ -75,8 +77,8 @@ public class Main extends ApplicationAdapter {
             sb.append("<div class=\"box\">\n");
             for (JsonValue entry = json.child; entry != null; entry = entry.next) {
                 String emojiChar = entry.getString("char");
-                String emojiFile = "emoji/" + emojiChar + ".png";
                 String name = entry.getString("name");
+                String emojiFile = "name/" + name + ".png";
                 sb.append("\t<div class=\"item\">\n" +
                           "\t\t<img src=\"" + emojiFile + "\" alt=\"" + name + "\" />\n" +
                           "\t\t<p>" + emojiChar + "</p>\n" +
