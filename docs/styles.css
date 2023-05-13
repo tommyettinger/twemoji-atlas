@@ -1,0 +1,12 @@
+body {
+    background-color: #222222;
+    color: #EEEEEE;
+    text-align: center;
+}
+.box {
+    display: flex;
+    flex-wrap: wrap;
+}
+.item {
+    flex-basis: 250px;
+}
