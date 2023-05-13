@@ -72,17 +72,18 @@ public class Main extends ApplicationAdapter {
                       "along with the two names each can be looked up by.</p>\n");
             sb.append("<p>The atlases and all image assets are licensed under CC-BY 4.0, with the same " +
                       "<a href=\"https://github.com/twitter/twemoji#attribution-requirements\">permissions granted for twemoji here</a>.</p>\n");
+            sb.append("<div class=\"box\">\n");
             for (JsonValue entry = json.child; entry != null; entry = entry.next) {
                 String emojiChar = entry.getString("char");
                 String emojiFile = "emoji/" + emojiChar + ".png";
                 String name = entry.getString("name");
-                sb.append("\t<div>\n" +
+                sb.append("\t<div class=\"item\">\n" +
                           "\t\t<img src=\"" + emojiFile + "\" alt=\"" + name + "\" />\n" +
                           "\t\t<p>" + emojiChar + "</p>\n" +
                           "\t\t<p>" + name + "</p>\n" +
                           "\t</div>\n");
             }
-            sb.append("</body>\n");
+            sb.append("</div>\n</body>\n");
             sb.append("</html>\n");
             Gdx.files.local("index.html").writeString(sb.toString(), false, "UTF8");
         }

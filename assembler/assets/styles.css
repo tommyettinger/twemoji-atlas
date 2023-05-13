@@ -3,3 +3,10 @@ body {
     color: #EEEEEE;
     text-align: center;
 }
+.box {
+    display: flex;
+    flex-wrap: wrap;
+}
+.item {
+    flex-basis: 250px;
+}
