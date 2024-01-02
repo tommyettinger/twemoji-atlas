@@ -9,13 +9,15 @@ package com.github.tommyettinger;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import com.badlogic.gdx.utils.JsonWriter;
 
 public class Main extends ApplicationAdapter {
 //    public static final String MODE = "FLAG";
-//    public static final String MODE = "EMOJI";
-    public static final String MODE = "EMOJI_HTML";
+    public static final String MODE = "EMOJI";
+//    public static final String MODE = "EMOJI_HTML";
     @Override
     public void create() {
         JsonReader reader = new JsonReader();
@@ -45,13 +47,17 @@ public class Main extends ApplicationAdapter {
             for (JsonValue entry = json.child; entry != null; entry = entry.next) {
                 String codename = entry.getString("codes").toLowerCase().replace(' ', '-') + ".png";
                 String charString = entry.getString("char") + ".png";
-                String name = entry.getString("name").replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and") + ".png";
+                String name = entry.getString("name").replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and");
+                entry.get("name").set(name);
+                name += ".png";
+                entry.remove("codes");
                 FileHandle original = Gdx.files.local("../../scaled-mid/" + codename);
                 if (original.exists() && !Gdx.files.local("../../renamed-mid/emoji/" + charString).exists()) {
                     original.copyTo(Gdx.files.local("../../renamed-mid/emoji/" + charString));
                     original.copyTo(Gdx.files.local("../../renamed-mid/name/" + name));
                 }
             }
+            Gdx.files.local("emoji-info-new.json").writeString(json.toJson(JsonWriter.OutputType.json), false);
         }
         else if("EMOJI_HTML".equals(MODE)) {
             JsonValue json = reader.parse(Gdx.files.internal("emoji-info.json"));

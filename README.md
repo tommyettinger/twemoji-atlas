@@ -1,7 +1,7 @@
 # TwemojiAtlas
 
 Takes [twemoji](https://github.com/twitter/twemoji) icons,
-uses [emoji.json](https://github.com/GreatWizard/emoji.json/tree/feat/14.0) to name them,
+uses [emoji.json](https://github.com/amio/emoji.json/tree/v15.1.0) to name them,
 and outputs a [libGDX](https://libgdx.com/) atlas.
 
 There are atlases available in three sizes:
