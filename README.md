@@ -1,6 +1,7 @@
 # TwemojiAtlas
 
-Takes [twemoji](https://github.com/twitter/twemoji) icons,
+Takes [twemoji](https://github.com/jdecked/twemoji/tree/v15.0.3) (and the older
+[twemoji using Emoji 14](https://github.com/twitter/twemoji)) icons,
 uses [emoji.json](https://github.com/amio/emoji.json/tree/v15.1.0) to name them,
 and outputs a [libGDX](https://libgdx.com/) atlas.
 
@@ -16,6 +17,6 @@ into your own atlas, or use a subset of them, if you want.
 ## License
 
 The atlases and all image assets are licensed under CC-BY 4.0, with the same
-[permissions granted for twemoji here](https://github.com/twitter/twemoji#attribution-requirements).
+[permissions granted for twemoji here](https://github.com/jdecked/twemoji/tree/v15.0.3?tab=readme-ov-file#attribution-requirements).
 
 The code is licensed under the MIT License. It includes emoji.json, which is also MIT-licensed.

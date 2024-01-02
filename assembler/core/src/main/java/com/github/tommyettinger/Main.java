@@ -14,9 +14,12 @@ import com.badlogic.gdx.utils.*;
 import java.lang.StringBuilder;
 
 public class Main extends ApplicationAdapter {
-//    public static final String MODE = "FLAG";
-    public static final String MODE = "EMOJI";
+//    public static final String MODE = "EMOJI_MID"; // run this first
+    public static final String MODE = "EMOJI_SMALL";
+//    public static final String MODE = "EMOJI_LARGE";
 //    public static final String MODE = "EMOJI_HTML";
+//    public static final String MODE = "FLAG";
+
     @Override
     public void create() {
         JsonReader reader = new JsonReader();
@@ -26,7 +29,7 @@ public class Main extends ApplicationAdapter {
             for (JsonValue entry = json.child; entry != null; entry = entry.next) {
                 if(!"Flags (country-flag)".equals(entry.getString("category"))) continue;
 
-                String codename = entry.getString("codes").toLowerCase().replace(' ', '-') + ".png";
+                String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "") + ".png";
                 String charString = entry.getString("char") + ".png";
                 String name = entry.getString("name").replace(':', ',').replace(".", "").replace("&", "and") + ".png";
                 String countryUnicode = entry.getString("char");
@@ -41,27 +44,86 @@ public class Main extends ApplicationAdapter {
                 }
             }
         }
-        else if("EMOJI".equals(MODE)) {
+        else if("EMOJI_MID".equals(MODE)) {
             JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
             ObjectSet<String> used = new ObjectSet<>(json.size);
             for (JsonValue entry = json.child; entry != null; entry = entry.next) {
                 String name = entry.getString("name").replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and");
                 if(used.add(name)) {
-                    String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "") + ".png";
+                    String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "");
                     String charString = entry.getString("char") + ".png";
                     entry.get("name").set(name);
                     name += ".png";
                     entry.remove("codes");
-                    FileHandle original = Gdx.files.local("../../scaled-mid/" + codename);
-                    if (original.exists() && !Gdx.files.local("../../renamed-mid/emoji/" + charString).exists()) {
+                    FileHandle original = Gdx.files.local("../../scaled-mid/" + codename + ".png");
+                    if (original.exists()) {
                         original.copyTo(Gdx.files.local("../../renamed-mid/emoji/" + charString));
                         original.copyTo(Gdx.files.local("../../renamed-mid/name/" + name));
+                    }
+                    else {
+                        original = Gdx.files.local("../../scaled-mid/" + codename + "-fe0f.png");
+                        if (original.exists()) {
+                            original.copyTo(Gdx.files.local("../../renamed-mid/emoji/" + charString));
+                            original.copyTo(Gdx.files.local("../../renamed-mid/name/" + name));
+                        }
                     }
                 } else {
                     entry.remove();
                 }
             }
             Gdx.files.local("emoji-info.json").writeString(json.toJson(JsonWriter.OutputType.json).replace("{", "\n{"), false);
+        }
+        else if("EMOJI_SMALL".equals(MODE)) {
+            JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
+            ObjectSet<String> used = new ObjectSet<>(json.size);
+            for (JsonValue entry = json.child; entry != null; entry = entry.next) {
+                String name = entry.getString("name").replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and");
+                if(used.add(name)) {
+                    String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "");
+                    String charString = entry.getString("char") + ".png";
+                    name += ".png";
+                    FileHandle original = Gdx.files.local("../../scaled-small/" + codename + ".png");
+                    if (original.exists()) {
+                        original.copyTo(Gdx.files.local("../../renamed-small/emoji/" + charString));
+                        original.copyTo(Gdx.files.local("../../renamed-small/name/" + name));
+                    }
+                    else {
+                        original = Gdx.files.local("../../scaled-small/" + codename + "-fe0f.png");
+                        if (original.exists()) {
+                            original.copyTo(Gdx.files.local("../../renamed-small/emoji/" + charString));
+                            original.copyTo(Gdx.files.local("../../renamed-small/name/" + name));
+                        }
+                    }
+                } else {
+                    entry.remove();
+                }
+            }
+        }
+        else if("EMOJI_LARGE".equals(MODE)) {
+            JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
+            ObjectSet<String> used = new ObjectSet<>(json.size);
+            for (JsonValue entry = json.child; entry != null; entry = entry.next) {
+                String name = entry.getString("name").replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and");
+                if(used.add(name)) {
+                    String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "");
+                    String charString = entry.getString("char") + ".png";
+                    name += ".png";
+                    FileHandle original = Gdx.files.local("../../individual/" + codename + ".png");
+                    if (original.exists()) {  //&& !Gdx.files.local("../../renamed/emoji/" + charString).exists()
+                        original.copyTo(Gdx.files.local("../../renamed/emoji/" + charString));
+                        original.copyTo(Gdx.files.local("../../renamed/name/" + name));
+                    }
+                    else {
+                        original = Gdx.files.local("../../individual/" + codename + "-fe0f.png");
+                        if (original.exists()) {
+                            original.copyTo(Gdx.files.local("../../renamed/emoji/" + charString));
+                            original.copyTo(Gdx.files.local("../../renamed/name/" + name));
+                        }
+                    }
+                } else {
+                    entry.remove();
+                }
+            }
         }
         else if("EMOJI_HTML".equals(MODE)) {
             JsonValue json = reader.parse(Gdx.files.internal("emoji-info.json"));
