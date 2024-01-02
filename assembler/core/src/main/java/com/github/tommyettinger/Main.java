@@ -9,10 +9,9 @@ package com.github.tommyettinger;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonWriter;
+import com.badlogic.gdx.utils.*;
+
+import java.lang.StringBuilder;
 
 public class Main extends ApplicationAdapter {
 //    public static final String MODE = "FLAG";
@@ -44,20 +43,25 @@ public class Main extends ApplicationAdapter {
         }
         else if("EMOJI".equals(MODE)) {
             JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
+            ObjectSet<String> used = new ObjectSet<>(json.size);
             for (JsonValue entry = json.child; entry != null; entry = entry.next) {
-                String codename = entry.getString("codes").toLowerCase().replace(' ', '-') + ".png";
-                String charString = entry.getString("char") + ".png";
                 String name = entry.getString("name").replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and");
-                entry.get("name").set(name);
-                name += ".png";
-                entry.remove("codes");
-                FileHandle original = Gdx.files.local("../../scaled-mid/" + codename);
-                if (original.exists() && !Gdx.files.local("../../renamed-mid/emoji/" + charString).exists()) {
-                    original.copyTo(Gdx.files.local("../../renamed-mid/emoji/" + charString));
-                    original.copyTo(Gdx.files.local("../../renamed-mid/name/" + name));
+                if(used.add(name)) {
+                    String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "") + ".png";
+                    String charString = entry.getString("char") + ".png";
+                    entry.get("name").set(name);
+                    name += ".png";
+                    entry.remove("codes");
+                    FileHandle original = Gdx.files.local("../../scaled-mid/" + codename);
+                    if (original.exists() && !Gdx.files.local("../../renamed-mid/emoji/" + charString).exists()) {
+                        original.copyTo(Gdx.files.local("../../renamed-mid/emoji/" + charString));
+                        original.copyTo(Gdx.files.local("../../renamed-mid/name/" + name));
+                    }
+                } else {
+                    entry.remove();
                 }
             }
-            Gdx.files.local("emoji-info-new.json").writeString(json.toJson(JsonWriter.OutputType.json), false);
+            Gdx.files.local("emoji-info.json").writeString(json.toJson(JsonWriter.OutputType.json).replace("{", "\n{"), false);
         }
         else if("EMOJI_HTML".equals(MODE)) {
             JsonValue json = reader.parse(Gdx.files.internal("emoji-info.json"));

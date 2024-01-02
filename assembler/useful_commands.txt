@@ -1,0 +1,2 @@
+magick convert "*.png[32x32]" -set filename:f "%f" +adjoin "../scaled-mid/%[filename:f]"
+magick convert "*.png[24x24]" -set filename:f "%f" +adjoin "../scaled-small/%[filename:f]"
