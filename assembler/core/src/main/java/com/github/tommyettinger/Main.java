@@ -15,9 +15,9 @@ import java.lang.StringBuilder;
 
 public class Main extends ApplicationAdapter {
 //    public static final String MODE = "EMOJI_MID"; // run this first
-    public static final String MODE = "EMOJI_SMALL";
+//    public static final String MODE = "EMOJI_SMALL";
 //    public static final String MODE = "EMOJI_LARGE";
-//    public static final String MODE = "EMOJI_HTML";
+    public static final String MODE = "EMOJI_HTML";
 //    public static final String MODE = "FLAG";
 
     @Override
@@ -145,17 +145,20 @@ public class Main extends ApplicationAdapter {
                       "<a href=\"https://github.com/tommyettinger/twemoji-atlas\">TwemojiAtlas</a>, " +
                       "along with the two names each can be looked up by.</p>\n");
             sb.append("<p>The atlases and all image assets are licensed under CC-BY 4.0, with the same " +
-                      "<a href=\"https://github.com/twitter/twemoji#attribution-requirements\">permissions granted for twemoji here</a>.</p>\n");
+                      "<a href=\"https://github.com/jdecked/twemoji/tree/v15.0.3?tab=readme-ov-file#attribution-requirements\">permissions granted for twemoji here</a>.</p>\n");
+            sb.append("<p>Thanks to all the <a href=\"https://github.com/jdecked/twemoji?tab=readme-ov-file#committers-and-contributors\">" +
+                      "WordPress, Discord, and ex-Twitter developers</a> who made this project possible!</p>\n");
             sb.append("<div class=\"box\">\n");
             for (JsonValue entry = json.child; entry != null; entry = entry.next) {
                 String emojiChar = entry.getString("char");
                 String name = entry.getString("name");
                 String emojiFile = "name/" + name + ".png";
                 sb.append("\t<div class=\"item\">\n" +
-                          "\t\t<img src=\"" + emojiFile + "\" alt=\"" + name + "\" />\n" +
-                          "\t\t<p>" + emojiChar + "</p>\n" +
-                          "\t\t<p>" + name + "</p>\n" +
-                          "\t</div>\n");
+                                "\t\t<img src=\"")
+                        .append(emojiFile).append("\" alt=\"").append(name).append("\" />\n")
+                        .append("\t\t<p>").append(emojiChar).append("</p>\n")
+                        .append("\t\t<p>").append(name).append("</p>\n")
+                        .append("\t</div>\n");
             }
             sb.append("</div>\n</body>\n");
             sb.append("</html>\n");
