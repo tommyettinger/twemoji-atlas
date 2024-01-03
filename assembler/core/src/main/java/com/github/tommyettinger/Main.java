@@ -18,8 +18,8 @@ import java.util.regex.Pattern;
 public class Main extends ApplicationAdapter {
 //    public static final String MODE = "EMOJI_MID"; // run this first
 //    public static final String MODE = "EMOJI_SMALL";
-    public static final String MODE = "EMOJI_LARGE";
-//    public static final String MODE = "EMOJI_HTML";
+//    public static final String MODE = "EMOJI_LARGE";
+    public static final String MODE = "EMOJI_HTML";
 //    public static final String MODE = "FLAG";
 //    public static final String MODE = "MODIFY_JSON";
 
