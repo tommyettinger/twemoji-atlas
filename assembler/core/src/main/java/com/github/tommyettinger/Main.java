@@ -12,37 +12,38 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.*;
 
 import java.lang.StringBuilder;
+import java.text.Normalizer;
+import java.util.regex.Pattern;
 
 public class Main extends ApplicationAdapter {
 //    public static final String MODE = "EMOJI_MID"; // run this first
 //    public static final String MODE = "EMOJI_SMALL";
 //    public static final String MODE = "EMOJI_LARGE";
-    public static final String MODE = "EMOJI_HTML";
+//    public static final String MODE = "EMOJI_HTML";
 //    public static final String MODE = "FLAG";
+    public static final String MODE = "MODIFY_JSON";
 
     @Override
     public void create() {
         JsonReader reader = new JsonReader();
-        if("FLAG".equals(MODE)) {
+        if("MODIFY_JSON".equals(MODE)) {
+            //To locate any names with non-ASCII chars in emoji.json, use this regex:
+            //"name":"[^"]*[^\u0000-\u007F][^"]*",
+            //To locate any names with characters that could be a problem, use this regex (may need expanding):
+            //"name":"[^"]*[^0-9a-zA-Z' ,!-][^"]*",
+            //Might be useful for locating intermediate things that need replacement?
+            //"name":"[^"]*[^0-9a-zA-Z' ,:\(\)!-][^"]*",
             JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
-            char[] buffer = new char[2];
             for (JsonValue entry = json.child; entry != null; entry = entry.next) {
-                if(!"Flags (country-flag)".equals(entry.getString("category"))) continue;
-
-                String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "") + ".png";
-                String charString = entry.getString("char") + ".png";
-                String name = entry.getString("name").replace(':', ',').replace(".", "").replace("&", "and") + ".png";
-                String countryUnicode = entry.getString("char");
-                buffer[0] = (char)(countryUnicode.codePointAt(1) - 56806 + 'A');
-                buffer[1] = (char)(countryUnicode.codePointAt(3) - 56806 + 'A');
-                String countryCode = String.valueOf(buffer);
-                FileHandle original = Gdx.files.local("../../scaled-tiny/" + codename);
-                if (original.exists()) {
-                    original.copyTo(Gdx.files.local("../../flags-tiny/emoji/" + charString));
-                    original.copyTo(Gdx.files.local("../../flags-tiny/name/" + name));
-                    original.copyTo(Gdx.files.local("../../flags-tiny/code/" + countryCode + ".png"));
-                }
+                String name = entry.getString("name")
+                        .replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'')
+                        .replace("ñ", "n").replace("ã", "a").replace("é", "e").replace("í", "i").replace("ü", "u")
+                        .replace("ç", "c").replace("ô", "o").replace("Å", "A").replace("å", "a")
+                        .replace(".", "").replace("&", "and");
+                entry.get("name").set(name);
             }
+
+            Gdx.files.local("emoji-ascii-names.json").writeString(json.toJson(JsonWriter.OutputType.json).replace("{", "\n{"), false);
         }
         else if("EMOJI_MID".equals(MODE)) {
             JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
@@ -164,5 +165,44 @@ public class Main extends ApplicationAdapter {
             sb.append("</html>\n");
             Gdx.files.local("index.html").writeString(sb.toString(), false, "UTF8");
         }
+        else if("FLAG".equals(MODE)) {
+            JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
+            char[] buffer = new char[2];
+            for (JsonValue entry = json.child; entry != null; entry = entry.next) {
+                if(!"Flags (country-flag)".equals(entry.getString("category"))) continue;
+
+                String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "") + ".png";
+                String charString = entry.getString("char") + ".png";
+                String name = entry.getString("name").replace(':', ',').replace(".", "").replace("&", "and") + ".png";
+                String countryUnicode = entry.getString("char");
+                buffer[0] = (char)(countryUnicode.codePointAt(1) - 56806 + 'A');
+                buffer[1] = (char)(countryUnicode.codePointAt(3) - 56806 + 'A');
+                String countryCode = String.valueOf(buffer);
+                FileHandle original = Gdx.files.local("../../scaled-tiny/" + codename);
+                if (original.exists()) {
+                    original.copyTo(Gdx.files.local("../../flags-tiny/emoji/" + charString));
+                    original.copyTo(Gdx.files.local("../../flags-tiny/name/" + name));
+                    original.copyTo(Gdx.files.local("../../flags-tiny/code/" + countryCode + ".png"));
+                }
+            }
+        }
     }
+
+    private static final Pattern diacritics = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+    /**
+     * Removes accented characters from a string; if the "base" characters are non-English anyway then the result won't
+     * be an ASCII string, but otherwise it probably will be.
+     * <br>
+     * This version can contain ligatures such as "æ" and "œ", but not with diacritics.
+     * <br>
+     * <a href="http://stackoverflow.com/a/1215117">Credit to StackOverflow user hashable</a>.
+     *
+     * @param str a string that may contain accented characters
+     * @return a string with all accented characters replaced with their (possibly ASCII) counterparts
+     */
+    public static String removeAccents(String str) {
+        String alteredString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        return diacritics.matcher(alteredString).replaceAll("");
+    }
+
 }
