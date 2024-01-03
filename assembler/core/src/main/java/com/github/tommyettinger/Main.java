@@ -18,10 +18,10 @@ import java.util.regex.Pattern;
 public class Main extends ApplicationAdapter {
 //    public static final String MODE = "EMOJI_MID"; // run this first
 //    public static final String MODE = "EMOJI_SMALL";
-//    public static final String MODE = "EMOJI_LARGE";
+    public static final String MODE = "EMOJI_LARGE";
 //    public static final String MODE = "EMOJI_HTML";
 //    public static final String MODE = "FLAG";
-    public static final String MODE = "MODIFY_JSON";
+//    public static final String MODE = "MODIFY_JSON";
 
     @Override
     public void create() {
@@ -49,20 +49,23 @@ public class Main extends ApplicationAdapter {
             JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
             ObjectSet<String> used = new ObjectSet<>(json.size);
             for (JsonValue entry = json.child; entry != null; entry = entry.next) {
-                String name = entry.getString("name").replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and");
+                String name = entry.getString("name")
+//                        .replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and")
+                        ;
                 if(used.add(name)) {
                     String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "");
+                    String cleaned = codename.replaceAll("-fe0f", "");
                     String charString = entry.getString("char") + ".png";
                     entry.get("name").set(name);
                     name += ".png";
                     entry.remove("codes");
-                    FileHandle original = Gdx.files.local("../../scaled-mid/" + codename + ".png");
+                    FileHandle original = Gdx.files.local("../../scaled-mid/" + cleaned + ".png");
                     if (original.exists()) {
                         original.copyTo(Gdx.files.local("../../renamed-mid/emoji/" + charString));
                         original.copyTo(Gdx.files.local("../../renamed-mid/name/" + name));
                     }
                     else {
-                        original = Gdx.files.local("../../scaled-mid/" + codename + "-fe0f.png");
+                        original = Gdx.files.local("../../scaled-mid/" + codename + ".png");
                         if (original.exists()) {
                             original.copyTo(Gdx.files.local("../../renamed-mid/emoji/" + charString));
                             original.copyTo(Gdx.files.local("../../renamed-mid/name/" + name));
@@ -78,18 +81,21 @@ public class Main extends ApplicationAdapter {
             JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
             ObjectSet<String> used = new ObjectSet<>(json.size);
             for (JsonValue entry = json.child; entry != null; entry = entry.next) {
-                String name = entry.getString("name").replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and");
+                String name = entry.getString("name")
+//                        .replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and")
+                        ;
                 if(used.add(name)) {
                     String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "");
+                    String cleaned = codename.replaceAll("-fe0f", "");
                     String charString = entry.getString("char") + ".png";
                     name += ".png";
-                    FileHandle original = Gdx.files.local("../../scaled-small/" + codename + ".png");
+                    FileHandle original = Gdx.files.local("../../scaled-small/" + cleaned + ".png");
                     if (original.exists()) {
                         original.copyTo(Gdx.files.local("../../renamed-small/emoji/" + charString));
                         original.copyTo(Gdx.files.local("../../renamed-small/name/" + name));
                     }
                     else {
-                        original = Gdx.files.local("../../scaled-small/" + codename + "-fe0f.png");
+                        original = Gdx.files.local("../../scaled-small/" + codename + ".png");
                         if (original.exists()) {
                             original.copyTo(Gdx.files.local("../../renamed-small/emoji/" + charString));
                             original.copyTo(Gdx.files.local("../../renamed-small/name/" + name));
@@ -104,18 +110,21 @@ public class Main extends ApplicationAdapter {
             JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
             ObjectSet<String> used = new ObjectSet<>(json.size);
             for (JsonValue entry = json.child; entry != null; entry = entry.next) {
-                String name = entry.getString("name").replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and");
+                String name = entry.getString("name")
+//                        .replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and")
+                        ;
                 if(used.add(name)) {
                     String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "");
+                    String cleaned = codename.replaceAll("-fe0f", "");
                     String charString = entry.getString("char") + ".png";
                     name += ".png";
-                    FileHandle original = Gdx.files.local("../../individual/" + codename + ".png");
+                    FileHandle original = Gdx.files.local("../../individual/" + cleaned + ".png");
                     if (original.exists()) {  //&& !Gdx.files.local("../../renamed/emoji/" + charString).exists()
                         original.copyTo(Gdx.files.local("../../renamed/emoji/" + charString));
                         original.copyTo(Gdx.files.local("../../renamed/name/" + name));
                     }
                     else {
-                        original = Gdx.files.local("../../individual/" + codename + "-fe0f.png");
+                        original = Gdx.files.local("../../individual/" + codename + ".png");
                         if (original.exists()) {
                             original.copyTo(Gdx.files.local("../../renamed/emoji/" + charString));
                             original.copyTo(Gdx.files.local("../../renamed/name/" + name));
@@ -173,7 +182,9 @@ public class Main extends ApplicationAdapter {
 
                 String codename = entry.getString("codes").toLowerCase().replace(' ', '-').replaceAll("\\b0+", "") + ".png";
                 String charString = entry.getString("char") + ".png";
-                String name = entry.getString("name").replace(':', ',').replace(".", "").replace("&", "and") + ".png";
+                String name = entry.getString("name")
+//                        .replace(':', ',').replace('“', '\'').replace('”', '\'').replace('’', '\'').replace(".", "").replace("&", "and")
+                        ;
                 String countryUnicode = entry.getString("char");
                 buffer[0] = (char)(countryUnicode.codePointAt(1) - 56806 + 'A');
                 buffer[1] = (char)(countryUnicode.codePointAt(3) - 56806 + 'A');
