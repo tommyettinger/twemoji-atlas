@@ -72,6 +72,11 @@ public class Main extends ApplicationAdapter {
                 Pixmap large = new Pixmap(Gdx.files.local("../../atlas/Twemoji.png"));
                 png.write(current.child("atlas/Twemoji.png"), large, false, true);
                 large.dispose();
+                for (int i = 2; i <= 5; i++) {
+                    Pixmap largeN = new Pixmap(Gdx.files.local("../../atlas/Twemoji"+i+".png"));
+                    png.write(current.child("atlas/Twemoji"+i+".png"), largeN, false, true);
+                    largeN.dispose();
+                }
                 Gdx.files.local("../../atlas/Twemoji.atlas").copyTo(current.child("atlas"));
                 Pixmap mid = new Pixmap(Gdx.files.local("../../atlas-mid/Twemoji.png"));
                 png.write(current.child("atlas-mid/Twemoji.png"), mid, false, true);
