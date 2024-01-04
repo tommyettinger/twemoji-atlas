@@ -66,8 +66,8 @@ public class Main extends ApplicationAdapter {
                 Pixmap pm = new Pixmap(pi);
                 qp.exact(PaletteReducer.colorsFrom(pm));
                 pm.dispose();
-                png.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE);
-                png.setDitherStrength(0.25f);
+                png.setDitherAlgorithm(Dithered.DitherAlgorithm.WREN);
+                png.setDitherStrength(1f);
                 png.setPalette(qp);
                 Pixmap large = new Pixmap(Gdx.files.local("../../atlas/Twemoji.png"));
                 png.write(current.child("atlas/Twemoji.png"), large, false, true);
