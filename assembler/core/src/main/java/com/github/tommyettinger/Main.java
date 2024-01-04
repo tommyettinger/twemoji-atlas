@@ -9,7 +9,12 @@ package com.github.tommyettinger;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.utils.*;
+import com.github.tommyettinger.anim8.Dithered;
+import com.github.tommyettinger.anim8.PNG8;
+import com.github.tommyettinger.anim8.PaletteReducer;
+import com.github.tommyettinger.anim8.QualityPalette;
 
 import java.lang.StringBuilder;
 import java.text.Normalizer;
@@ -19,9 +24,10 @@ public class Main extends ApplicationAdapter {
 //    public static final String MODE = "EMOJI_MID"; // run this first
 //    public static final String MODE = "EMOJI_SMALL";
 //    public static final String MODE = "EMOJI_LARGE";
-    public static final String MODE = "EMOJI_HTML";
+//    public static final String MODE = "EMOJI_HTML";
 //    public static final String MODE = "FLAG";
 //    public static final String MODE = "MODIFY_JSON";
+    public static final String MODE = "ALTERNATE_PALETTES";
 
     @Override
     public void create() {
@@ -44,6 +50,38 @@ public class Main extends ApplicationAdapter {
             }
 
             Gdx.files.local("emoji-ascii-names.json").writeString(json.toJson(JsonWriter.OutputType.json).replace("{", "\n{"), false);
+        }
+        else if("ALTERNATE_PALETTES".equals(MODE)) {
+            FileHandle paletteDir = Gdx.files.local("../../alt-palette/");
+            FileHandle[] paletteImages = paletteDir.list(".png");
+            QualityPalette qp = new QualityPalette();
+            PNG8 png = new PNG8();
+            png.setCompression(7);
+            png.setFlipY(false);
+            for (FileHandle pi : paletteImages) {
+                String paletteName = pi.nameWithoutExtension();
+                System.out.println("Working on " + paletteName);
+                FileHandle current = paletteDir.child(paletteName + "/");
+                current.mkdirs();
+                Pixmap pm = new Pixmap(pi);
+                qp.exact(PaletteReducer.colorsFrom(pm));
+                pm.dispose();
+                png.setDitherAlgorithm(Dithered.DitherAlgorithm.NONE);
+                png.setDitherStrength(0.25f);
+                png.setPalette(qp);
+                Pixmap large = new Pixmap(Gdx.files.local("../../atlas/Twemoji.png"));
+                png.write(current.child("atlas/Twemoji.png"), large, false, true);
+                large.dispose();
+                Gdx.files.local("../../atlas/Twemoji.atlas").copyTo(current.child("atlas"));
+                Pixmap mid = new Pixmap(Gdx.files.local("../../atlas-mid/Twemoji.png"));
+                png.write(current.child("atlas-mid/Twemoji.png"), mid, false, true);
+                mid.dispose();
+                Gdx.files.local("../../atlas-mid/Twemoji.atlas").copyTo(current.child("atlas-mid"));
+                Pixmap small = new Pixmap(Gdx.files.local("../../atlas-small/Twemoji.png"));
+                png.write(current.child("atlas-small/Twemoji.png"), small, false, true);
+                small.dispose();
+                Gdx.files.local("../../atlas-small/Twemoji.atlas").copyTo(current.child("atlas-small"));
+            }
         }
         else if("EMOJI_MID".equals(MODE)) {
             JsonValue json = reader.parse(Gdx.files.internal("emoji.json"));
